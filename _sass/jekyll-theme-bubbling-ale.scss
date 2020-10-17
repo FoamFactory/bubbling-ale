@@ -124,6 +124,11 @@ a {
   @include small {
     padding: 2rem 1rem;
   }
+
+  * {
+    position: relative;
+    z-index: 12;
+  }
 }
 
 .project-name {
@@ -377,4 +382,8 @@ a {
 
 .site-footer-credits {
   color: $blockquote-text-color;
+}
+
+.bubble-container {
+  position: relative;
 }
