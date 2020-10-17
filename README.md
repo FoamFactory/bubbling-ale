@@ -1,6 +1,6 @@
 # Bubbling Ale Theme
 
-[![Gem Version](https://badge.fury.io/rb/jekyll-theme-cayman.svg)](https://badge.fury.io/rb/jekyll-theme-cayman)
+[![Gem Version](https://badge.fury.io/rb/jekyll-theme-bubbling-ale.svg)](https://badge.fury.io/rb/jekyll-theme-bubbling-ale)
 
  > Bubbling ale is a Jekyll theme for GitHub Pages, based off of [Cayman](http://pages-themes.github.io/cayman).
 
@@ -29,7 +29,7 @@ gem "jekyll-theme-bubbling-ale", "0.0.2"
 
 ### Configuration variables
 
-Cayman will respect the following variables, if set in your site's `_config.yml`:
+Bubbling Ale will respect the following variables, if set in your site's `_config.yml`:
 
 ```yml
 title: [The title of your site]
