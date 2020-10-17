@@ -1,0 +1,36 @@
+// Colors
+$color-cream-ale: #ffec99;
+$color-california-common: #f28b00;
+$color-thunder: #4c4c4c;
+$color-grain: #7A5624;
+$color-grain-transparent: rgba($color-grain, 0.2);
+$color-grain-light: lighten(desaturate($color-grain, 35%), 10%);
+
+// Breakpoints
+$large-breakpoint: 64em !default;
+$medium-breakpoint: 42em !default;
+
+// Headers
+$header-heading-color: $color-thunder !default;
+$header-bg-color: $color-cream-ale;
+$header-bg-color-secondary: $color-california-common !default;
+
+// Text
+$section-headings-color: $color-california-common !default;
+$body-text-color: $color-thunder !default;
+$body-link-color-hover: lighten($color-grain, 20%);
+$body-link-color: $color-grain !default;
+$blockquote-text-color: $color-grain-light !default;
+$blockquote-bar-color: $color-grain !default;
+
+// Code
+$code-bg-color: $color-grain-transparent !default;
+$code-text-color: $color-grain;
+
+// Borders
+$border-color: darken($color-grain, 20%) !default;
+$table-border-color: #e9ebec !default;
+$hr-border-color: $color-grain-transparent !default;
+
+// Gradients
+$beer: linear-gradient($color-cream-ale, $color-california-common);
