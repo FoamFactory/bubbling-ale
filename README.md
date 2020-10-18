@@ -1,25 +1,33 @@
 # Bubbling Ale Theme
 
-[![Gem Version](https://badge.fury.io/rb/jekyll-theme-bubbling-ale.svg)](https://badge.fury.io/rb/jekyll-theme-bubbling-ale)
+[![Gem Version](https://badge.fury.io/rb/bubbling-ale.svg)](https://badge.fury.io/rb/bubbling-ale)
 
  > Bubbling ale is a Jekyll theme for GitHub Pages, based off of [Cayman](http://pages-themes.github.io/cayman).
 
 ## Usage
+### On Github Pages
+To use the Bubbling Ale theme on github pages:
 
-To use the Bubbling Ale theme:
+1. Add the following to your `_config.yml`:
+```yml
+remote_theme: FoamFactory/bubbling-ale
+```
+
+### Custom Jekyll Setup
+To use the Bubbling Ale theme with a custom Jekyll setup:
 
 1. Add the theme to your `Gemfile`:
 ```yml
-gem "jekyll-theme-bubbling-ale", "0.0.2"
+gem "bubbling-ale", "0.0.2"
 ```
 
 2. Add the following to your site's `_config.yml`:
 
     ```yml
-    theme: jekyll-theme-bubbling-ale
+    theme: bubbling-ale
     ```
 
-2. Optionally, if you'd like to preview your site on your computer, add the following to your site's `Gemfile`:
+3. Optionally, if you'd like to preview your site on your computer, add the following to your site's `Gemfile`:
 
     ```ruby
     gem "github-pages", group: :jekyll_plugins
