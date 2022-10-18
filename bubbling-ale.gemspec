@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = 'bubbling-ale'
-  s.version       = '0.0.3'
+  s.version       = '0.0.4'
   s.license       = 'CC0-1.0'
   s.authors       = ['Scott Johnson']
   s.email         = ['jaywir3@gmail.com']
