@@ -1,7 +1,22 @@
+let containerSqpx = -1;
+let containerWidth = -1;
+let containerHeight = -1;
+let numBubbles = 0;
+
 function createBubble(parent) {
+  if (containerWidth < 0) {
+    containerWidth = parent.getBoundingClientRect().width;
+  }
+
+  if (containerHeight < 0) {
+    containerHeight = parent.getBoundingClientRect().height;
+  }
+
+  let speed = getRandomBubbleSpeed();
   let size = getRandomBubbleSize();
-  let leftPos = getRandomBubbleLeftPosition(parent);
+  let leftPos = getRandomBubbleLeftPosition(containerWidth);
   let bubbleElement = document.createElement('div');
+  bubbleElement.setAttribute('class', 'bubble');
   bubbleElement.style.height = `${size}px`;
   bubbleElement.style.width = `${size}px`;
   bubbleElement.style.position = 'absolute';
@@ -10,23 +25,37 @@ function createBubble(parent) {
   bubbleElement.style.left = `${leftPos}px`;
   bubbleElement.style.bottom = '0px';
   bubbleElement.style.zIndex = '1';
+  bubbleElement.style.transition = `transform ${speed}s`;
+  bubbleElement.style.transform = `translateY(0px)`;
+  bubbleElement.addEventListener("transitionend", bubbleEnded);
 
   parent.appendChild(bubbleElement);
+  numBubbles++;
 
   return {
     element: bubbleElement,
     position: 0,
     speed: getRandomBubbleSpeed(),
-    maxPosition: Math.floor(parent.getBoundingClientRect().height + 10)
+    maxPosition: Math.floor(parent.getBoundingClientRect().height + 10),
+    updateStarted: false
   }
 }
 
-function getMaxBubblesForContainer(container) {
-  // We want a distribution of about 0.25 bubbles/sqpx
-  let sqpx = container.getBoundingClientRect().width
-    * container.getBoundingClientRect.height;
+function bubbleEnded(event) {
+  let bubbleElement = event.srcElement;
+  bubbleElement.parentNode.removeChild(bubbleElement);
+  numBubbles--;
+}
 
-  return Math.floor(0.25 * sqpx);
+function getMaxBubblesForContainer(container) {
+  // We want a distribution of about 0.005 bubbles/sqpx
+  if (containerSqpx < 0) {
+    containerSqpx = container.getBoundingClientRect().width
+    * container.getBoundingClientRect().height;
+  }
+
+  let maxNum = Math.floor(0.005 * containerSqpx);
+  return maxNum;
 }
 
 // Will return a random speed, in px/second, between 10 and 50
@@ -39,12 +68,9 @@ function getRandomBubbleSize() {
   return Math.floor(Math.random() * 11 + 4);
 }
 
-function getRandomBubbleLeftPosition(parent) {
+function getRandomBubbleLeftPosition(width) {
   // the left position must be between 1 and the max container width - 1
-  let maxContainerWidth = parent.getBoundingClientRect().width;
-
-  let leftPos = Math.floor((Math.random() * (maxContainerWidth - 1) + 1));
-  return leftPos;
+  return Math.floor((Math.random() * (width - 1) + 1));
 }
 
 function carbonate(element) {
@@ -59,6 +85,7 @@ function carbonate(element) {
   bubbles.push(createBubble(element));
 
   window.bubbler.bubbles = bubbles;
+
   if (!window.bubbler.carbonatedElements) {
     window.bubbler.carbonatedElements = [];
   }
@@ -73,17 +100,18 @@ function updateBubblePositions(timestamp) {
     let elapsed = timestamp - window.bubbler.lastUpdateTime;
     let bubbles = window.bubbler.bubbles;
     let updatedBubbles = [];
+
     for (let bubbleIdx in bubbles) {
       let bubble = bubbles[bubbleIdx];
-      let newPosition = bubble.position + ((bubble.speed / 1000.0) * elapsed);
-      bubble.position = newPosition;
-
-      if (bubble.position > bubble.maxPosition) {
-        bubble.element.parentNode.removeChild(bubble.element);
-      } else {
-        bubble.element.style.transform = `translateY(-${bubble.position}px)`;
-        updatedBubbles.push(bubble);
+      if (!bubble.updateStarted) {
+        let maxPosition = bubble.maxPosition;
+        bubble.element.style.transform = `translateY(-${maxPosition}px)`;
+        bubble.updateStarted = true;
       }
+
+      bubble.position = bubble.position + ((bubble.speed / 1000.0) * elapsed);
+
+      updatedBubbles.push(bubble);
     }
 
     // Randomly create between 1 and 5 bubbles PER carbonated element, depending
@@ -93,7 +121,6 @@ function updateBubblePositions(timestamp) {
       let carbonationContainer = carbonatedParents[carbonatedContainerIdx];
 
       // There is a sliding scale determining how many bubbles will be created.
-      let numBubbles = window.bubbler.bubbles.length;
       let bubbleChance;
       if (numBubbles < 20) {
         // if there are less than 20 bubbles in the view, there is a 100% chance
